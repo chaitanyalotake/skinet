@@ -4,45 +4,42 @@
 
         <section class="col-3">
             <h5 class="text-warning ml-3">Sort</h5>
-            <select class="custom-select mb-3">
-                <option value="" selected>Alphabetical</option>
-                <option value="">Price: Low to High</option>
-                <option value="">Price: High to Low</option>
+            <select class="custom-select mb-3" (change)="onSortSelected($event.target.value)">
+                <option *ngFor="let sort of sortOptions" [value]="sort.value">
+                    {{sort.name}}
+                </option>
             </select>
 
             <h5 class="text-warning ml-3">Brands</h5>
             <ul class="list-group my-3">
-                <li class="list-group-item" 
-                *ngFor="let brand of brands"
-                [class.active]="brand.id===this.brandIdSelected"
-                [value]="brand.id"
-                (click)="onBrandSelected(brand.Id)">
+                <li class="list-group-item" *ngFor="let brand of brands"
+                    [class.active]="brand.id===this.shopParamas.brandId" [value]="brand.id"
+                    (click)="onBrandSelected(brand.id)">
                     {{brand.name}}
                 </li>
             </ul>
 
             <h5 class="text-warning ml-3">Types</h5>
             <ul class="list-group my-3">
-                <li class="list-group-item " 
-                *ngFor="let type of types"
-                [class.active]="type.id===this.typeIdSelected"
-                [value]="type.id"
-                (click)="onTypeSelected(type.Id)">
+                <li class="list-group-item " *ngFor="let type of types"
+                    [class.active]="type.id===this.shopParamas.typeId" [value]="type.id"
+                    (click)="onTypeSelected(type.id)">
                     {{type.name}}
                 </li>
             </ul>
         </section>
         <section class="col-9">
             <div class="d-flex justify-content-between align-items-center pb-2">
-                <header>
-                    <span>Showing <strong>10</strong> of <strong>16 </strong>Results</span>
-                </header>
+                <app-paging-header [totalCount]="totalCount" [pageSize]="this.shopParamas.pageSize"
+                    [pageNumber]="this.shopParamas.pageNumber">
+                </app-paging-header>
                 <div class="form-inline mt-2">
-                    <div></div>
-                    <input class=" mr-2" type="text" style="width: 300px;" placeholder="Search.." name="search">
-                    <button class="btn btn-outline-primary my-2" style="margin-left: 7px;">Search</button>
-                    <button class="btn btn-outline-success my-2" style="margin-left: 7px;">Reset</button>
 
+                    <input (keyup.enter)="onSearch()" class=" mr-2" type="text" style="width: 300px;" placeholder="Search.." #search >
+                    <button  (click)="onSearch()" class="btn btn-outline-primary my-2" style="margin-left: 7px;">Search</button>
+                    <button  (click)="onReset()" class="btn btn-outline-success my-2" style="margin-left: 7px;">Reset</button>
+                    <div>
+                    </div>
                 </div>
             </div>
 
@@ -51,6 +48,17 @@
                     <app-product-item [product]="item"></app-product-item>
                 </div>
             </div>
+            <div class="d-flex justify-content-center" *ngIf="this.totalCount>0">
+                <app-pager
+                [pageSize]="shopParamas.pageSize"
+                [totalCount]="totalCount"
+                (pageChange)="onPageChanged($event)"
+                >
+
+                </app-pager>
+            </div>
+
+
         </section>
     </div>
 </div>
