@@ -5,7 +5,7 @@
     <button class="btn btn-outline-primary " style="margin-right: 10px;" (click)="get400ValidationError()">Test 400
         Validation Error</button>
     <div class="row mt-5" *ngIf="validationErrors">
-        <ul class="text danger">
+        <ul class="text-danger">
             <li *ngFor="let error of validationErrors">
                 {{error}}
             </li>
