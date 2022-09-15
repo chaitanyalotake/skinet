@@ -29,6 +29,8 @@ export class CheckoutPaymentComponent implements OnInit {
       this.toastr.success('Order created successfully');
       this.basketService.deleteLocalBasket(basket.id);
       const navigationExtras:NavigationExtras={state:order}
+      console.log(order);
+      
       this.router.navigate(['checkout/success'],navigationExtras);
 
     },
